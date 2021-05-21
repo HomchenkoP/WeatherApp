@@ -1,5 +1,6 @@
 package ru.geekbrains.weatherapp.viewmodel
 
+import ru.geekbrains.weatherapp.model.LoadingException
 import ru.geekbrains.weatherapp.model.Repository
 import ru.geekbrains.weatherapp.model.RepositoryImpl
 
@@ -25,8 +26,18 @@ class MainViewModel(
         liveDataToObserve.value = AppState.Loading
         // имитация запроса к БД
         Thread {
-            sleep(3000) // временно! имитация задержки ответа БД
-            liveDataToObserve.postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorage()))
+            // три попытки
+            for (tryCnt in 1..3) {
+                liveDataToObserve.postValue(AppState.Loading)
+                sleep(3000)
+                try {
+                    liveDataToObserve.postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorage()))
+                    break
+                } catch (e: LoadingException) {
+                    liveDataToObserve.postValue(AppState.Error(e))
+                    sleep(1000)
+                }
+            }
         }.start()
     }
 }
