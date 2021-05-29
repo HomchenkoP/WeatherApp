@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -50,6 +51,21 @@ class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnIt
             val innerRecyclerView: RecyclerView = itemView.findViewById(R.id.innerRecyclerView)
             innerRecyclerView.layoutManager = LinearLayoutManager(innerRecyclerView.context, LinearLayoutManager.HORIZONTAL, false)
             innerRecyclerView.adapter = InnerAdapter(weatherCategory.items, onItemViewClickListener)
+
+            // типа заготовка примитивного пейджинга
+            innerRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    (recyclerView.layoutManager as? LinearLayoutManager)?.findLastCompletelyVisibleItemPosition().takeIf { it != -1 }?.let {
+                        if (recyclerView.adapter != null) {
+                            if (it >= (recyclerView.adapter as InnerAdapter).itemCount - 1) {
+                                Toast.makeText(recyclerView.context, "Показаны все загруженные данные.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                }
+            })
         }
     }
 }
