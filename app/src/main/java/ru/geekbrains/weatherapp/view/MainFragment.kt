@@ -1,7 +1,7 @@
 package ru.geekbrains.weatherapp.view
 
 import ru.geekbrains.weatherapp.R
-import ru.geekbrains.weatherapp.databinding.MainFragmentBinding
+import ru.geekbrains.weatherapp.databinding.FragmentMainBinding
 import ru.geekbrains.weatherapp.model.Weather
 import ru.geekbrains.weatherapp.viewmodel.AppState
 import ru.geekbrains.weatherapp.viewmodel.MainViewModel
@@ -21,23 +21,40 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private var _binding: MainFragmentBinding? = null
+    interface OnItemViewClickListener {
+        fun onItemViewClick(weather: Weather)
+    }
+
+    private var _binding: FragmentMainBinding? = null
     private val binding
         // геттер переменной binding
-        get(): MainFragmentBinding = _binding!!
+        get(): FragmentMainBinding = _binding!!
 
     private lateinit var viewModel: MainViewModel
+    private val adapter = MainFragmentAdapter(object : OnItemViewClickListener
+    {
+        override fun onItemViewClick(weather: Weather) {
+            val manager = activity?.supportFragmentManager
+            if (manager != null) {
+                manager.beginTransaction()
+                    .add(R.id.container, DetailsFragment.newInstance(weather))
+                    .addToBackStack("")
+                    .commitAllowingStateLoss()
+            }
+        }
+    })
+    private var isDataSetRus: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = MainFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // привязка viewModel к жизненному циклу фрагмента MainFragment
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
@@ -45,43 +62,45 @@ class MainFragment : Fragment() {
         // подписываемся на изменения LiveData<AppState>
         // связка с жизненным циклом вьюхи(!) фрагмента MainFragment
         viewModel.getLiveData().observe(viewLifecycleOwner, observer)
-        viewModel.getWeather()
+        viewModel.getWeatherFromLocalSourceRus()
+
+        binding.mainFragmentRecyclerView.adapter = adapter
+        binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
+    }
+
+    private fun changeWeatherDataSet() {
+        if (isDataSetRus) {
+            viewModel.getWeatherFromLocalSourceWorld()
+            binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
+        } else {
+            viewModel.getWeatherFromLocalSourceRus()
+            binding.mainFragmentFAB.setImageResource(R.drawable.ic_russia)
+        }
+        isDataSetRus = !isDataSetRus
     }
 
     // renderData() вызывается Observer'ом при изменении данных LiveData
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Loading -> {
-                binding.loadingLayout.visibility = View.VISIBLE // отображаем прогрессбар
+                binding.mainFragmentLoadingLayout.visibility = View.VISIBLE // отображаем прогрессбар
                 Toast.makeText(context, getString(R.string.loading_mess), Toast.LENGTH_SHORT).show()
             }
             is AppState.Success -> {
-                binding.loadingLayout.visibility = View.GONE // скрываем прогрессбар
-                val weatherData = appState.weatherData
-                setData(weatherData)
+                binding.mainFragmentLoadingLayout.visibility = View.GONE // скрываем прогрессбар
+                adapter.setWeatherCategory(appState.weatherData)
                 Toast.makeText(context, getString(R.string.loading_success_mess), Toast.LENGTH_LONG).show()
             }
             is AppState.Error -> {
-                binding.loadingLayout.visibility = View.GONE // скрываем прогрессбар
+                binding.mainFragmentLoadingLayout.visibility = View.GONE // скрываем прогрессбар
                 Toast.makeText(context, getString(R.string.loading_failed_mess), Toast.LENGTH_SHORT).show()
-                //viewModel.getWeather()
             }
         }
-    }
-
-    private fun setData(weatherData: Weather) {
-        binding.cityName.text = weatherData.city.name
-        binding.cityCoordinates.text = String.format(
-            getString(R.string.city_coordinates),
-            weatherData.city.lat,
-            weatherData.city.lon
-        )
-        binding.temperatureValue.text = weatherData.temperature.toString()
-        binding.feelsLikeValue.text = weatherData.feelsLike.toString()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        adapter.removeListener()
     }
 }

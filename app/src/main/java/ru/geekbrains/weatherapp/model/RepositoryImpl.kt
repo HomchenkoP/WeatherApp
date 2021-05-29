@@ -14,6 +14,14 @@ class RepositoryImpl : Repository {
     override fun getWeatherFromServer(): Weather {
         return Weather()
     }
+
+    override fun getWeatherFromLocalStorageRus(): List<WeatherCategory> {
+        return getRussianWeatherCategory()
+    }
+
+    override fun getWeatherFromLocalStorageWorld(): List<WeatherCategory> {
+        return getWorldWeatherCategory()
+    }
 }
 
 class LoadingException(s: String) : Throwable()
