@@ -9,13 +9,22 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/mainFragmentRecyclerItemTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/recycler_item_padding"
         android:textSize="@dimen/recycler_item_text_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Екатеринбург" />
+        tools:text="Категория" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/innerRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainFragmentRecyclerItemTextView" />
 
     <View
         android:layout_width="match_parent"
@@ -24,5 +33,5 @@
         android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainFragmentRecyclerItemTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/innerRecyclerView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

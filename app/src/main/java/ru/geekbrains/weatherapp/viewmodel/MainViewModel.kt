@@ -1,11 +1,12 @@
 package ru.geekbrains.weatherapp.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import ru.geekbrains.weatherapp.model.LoadingException
 import ru.geekbrains.weatherapp.model.Repository
 import ru.geekbrains.weatherapp.model.RepositoryImpl
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import java.lang.Thread.sleep
 
 class MainViewModel(

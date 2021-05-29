@@ -88,7 +88,7 @@ class MainFragment : Fragment() {
             }
             is AppState.Success -> {
                 binding.mainFragmentLoadingLayout.visibility = View.GONE // скрываем прогрессбар
-                adapter.setWeather(appState.weatherData)
+                adapter.setWeatherCategory(appState.weatherData)
                 Toast.makeText(context, getString(R.string.loading_success_mess), Toast.LENGTH_LONG).show()
             }
             is AppState.Error -> {
