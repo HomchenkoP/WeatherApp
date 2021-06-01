@@ -20,29 +20,27 @@ class InnerAdapter(
         onItemViewClickListener = null
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InnerViewHolder {
-        return InnerViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        InnerViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.inner_recycler_item, parent, false) as View
         )
-    }
 
     override fun onBindViewHolder(holder: InnerViewHolder, position: Int) {
         holder.bind(weatherData[position])
     }
 
-    override fun getItemCount(): Int {
-        return weatherData.size
-    }
+    override fun getItemCount() = weatherData.size
 
     inner class InnerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(weather: Weather) {
-            itemView.findViewById<TextView>(R.id.innerRecyclerItemText).text =
-                weather.city.name
-            itemView.setOnClickListener {
-                onItemViewClickListener?.onItemViewClick(weather)
-                Toast.makeText(itemView.context, weather.city.name, Toast.LENGTH_SHORT).show()
+            itemView.apply {
+                findViewById<TextView>(R.id.innerRecyclerItemText).text = weather.city.name
+                setOnClickListener {
+                    onItemViewClickListener?.onItemViewClick(weather)
+                    Toast.makeText(itemView.context, weather.city.name, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

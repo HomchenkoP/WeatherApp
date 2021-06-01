@@ -25,47 +25,43 @@ class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnIt
         onItemViewClickListener = null
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): MainViewHolder {
-        return MainViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        MainViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.fragment_main_recycler_item, parent, false) as View
         )
-    }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         holder.bind(weatherCategory[position])
     }
 
-    override fun getItemCount(): Int {
-        return weatherCategory.size
-    }
+    override fun getItemCount() = weatherCategory.size
 
     inner class MainViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(weatherCategory: WeatherCategory) {
             itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text =
                 weatherCategory.title
-            val innerRecyclerView: RecyclerView = itemView.findViewById(R.id.innerRecyclerView)
-            innerRecyclerView.layoutManager = LinearLayoutManager(innerRecyclerView.context, LinearLayoutManager.HORIZONTAL, false)
-            innerRecyclerView.adapter = InnerAdapter(weatherCategory.items, onItemViewClickListener)
 
-            // типа заготовка примитивного пейджинга
-            innerRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
+            (itemView.findViewById(R.id.innerRecyclerView) as RecyclerView).apply {
+                layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = InnerAdapter(weatherCategory.items, onItemViewClickListener)
 
-                    (recyclerView.layoutManager as? LinearLayoutManager)?.findLastCompletelyVisibleItemPosition().takeIf { it != -1 }?.let {
-                        if (recyclerView.adapter != null) {
-                            if (it >= (recyclerView.adapter as InnerAdapter).itemCount - 1) {
-                                Toast.makeText(recyclerView.context, "Показаны все загруженные данные.", Toast.LENGTH_SHORT).show()
+                // типа заготовка примитивного пейджинга
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        super.onScrolled(recyclerView, dx, dy)
+
+                        (recyclerView.layoutManager as? LinearLayoutManager)?.findLastCompletelyVisibleItemPosition().takeIf { it != -1 }?.let {
+                            if (recyclerView.adapter != null) {
+                                if (it >= (recyclerView.adapter as InnerAdapter).itemCount - 1) {
+                                    Toast.makeText(recyclerView.context, "Показаны все загруженные данные.", Toast.LENGTH_SHORT).show()
+                                }
                             }
                         }
                     }
-                }
-            })
+                })
+            }
         }
     }
 }

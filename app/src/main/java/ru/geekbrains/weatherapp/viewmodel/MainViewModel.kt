@@ -4,7 +4,6 @@ import ru.geekbrains.weatherapp.model.LoadingException
 import ru.geekbrains.weatherapp.model.Repository
 import ru.geekbrains.weatherapp.model.RepositoryImpl
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.lang.Thread.sleep
@@ -14,13 +13,9 @@ class MainViewModel(
     private val repositoryImpl: Repository = RepositoryImpl()
 ) : ViewModel() {
 
-    fun getLiveData(): LiveData<AppState> {
-        return liveDataToObserve
-    }
+    fun getLiveData() = liveDataToObserve
 
-    fun getWeather() {
-        getDataFromLocalSource(isRussian = true)
-    }
+    fun getWeather() = getDataFromLocalSource(isRussian = true)
 
     private fun getDataFromLocalSource(isRussian: Boolean) {
         liveDataToObserve.value = AppState.Loading

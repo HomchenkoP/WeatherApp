@@ -5,16 +5,12 @@ data class WeatherCategory(
     val items: List<Weather>
 )
 
-fun getWorldWeatherCategory(): List<WeatherCategory> {
-    return listOf(
+fun getWorldWeatherCategory() = listOf(
         WeatherCategory("погода в мире", getWorldCities()),
         WeatherCategory("погода в России", getRussianCities())
     )
-}
 
-fun getRussianWeatherCategory(): List<WeatherCategory> {
-    return listOf(
+fun getRussianWeatherCategory() =  listOf(
         WeatherCategory("погода в России", getRussianCities()),
         WeatherCategory("погода в мире", getWorldCities())
     )
-}
