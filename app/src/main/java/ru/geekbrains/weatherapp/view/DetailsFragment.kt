@@ -3,6 +3,7 @@ package ru.geekbrains.weatherapp.view
 import ru.geekbrains.weatherapp.R
 import ru.geekbrains.weatherapp.databinding.FragmentDetailsBinding
 import ru.geekbrains.weatherapp.model.Weather
+import ru.geekbrains.weatherapp.put
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +20,7 @@ class DetailsFragment : Fragment() {
         fun newInstance(weather: Weather): DetailsFragment =
             DetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(BUNDLE_EXTRA, weather)
+                    put(BUNDLE_EXTRA, weather)
                 }
             }
     }
