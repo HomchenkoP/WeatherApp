@@ -1,9 +1,9 @@
 package ru.geekbrains.weatherapp.view
 
 import ru.geekbrains.weatherapp.R
+import ru.geekbrains.weatherapp.argumentNullable
 import ru.geekbrains.weatherapp.databinding.FragmentDetailsBinding
 import ru.geekbrains.weatherapp.model.Weather
-import ru.geekbrains.weatherapp.put
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,17 +12,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
 class DetailsFragment : Fragment() {
+    private var weatherData: Weather? by argumentNullable()
 
     companion object {
 
-        private const val BUNDLE_EXTRA = "weatherData"
-
         fun newInstance(weather: Weather): DetailsFragment =
             DetailsFragment().apply {
-                arguments = Bundle().apply {
-                    put(BUNDLE_EXTRA, weather)
+                this.weatherData = weather
                 }
-            }
     }
 
     private var _binding: FragmentDetailsBinding? = null
@@ -41,7 +38,7 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.getParcelable<Weather>(BUNDLE_EXTRA)?.let { weatherData ->
+        weatherData?.let { weatherData ->
             weatherData.city.also { city ->
                 binding.cityName.text = city.name
                 binding.cityCoordinates.text = String.format(
