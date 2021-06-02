@@ -30,13 +30,12 @@ class MainFragment : Fragment() {
         // геттер переменной binding
         get(): FragmentMainBinding = _binding!!
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) } // привязка viewModel к жизненному циклу фрагмента MainFragment
     private val adapter = MainFragmentAdapter(object : OnItemViewClickListener
     {
         override fun onItemViewClick(weather: Weather) {
-            val manager = activity?.supportFragmentManager
-            if (manager != null) {
-                manager.beginTransaction()
+            activity?.supportFragmentManager?.apply {
+                beginTransaction()
                     .add(R.id.container, DetailsFragment.newInstance(weather))
                     .addToBackStack("")
                     .commitAllowingStateLoss()
@@ -55,13 +54,10 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // привязка viewModel к жизненному циклу фрагмента MainFragment
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        val observer = Observer<AppState> { state: AppState -> renderData(state) }
         // подписываемся на изменения LiveData<AppState>
         // связка с жизненным циклом вьюхи(!) фрагмента MainFragment
-        viewModel.getLiveData().observe(viewLifecycleOwner, observer)
+        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         viewModel.getWeatherFromLocalSourceRus()
 
         binding.mainFragmentRecyclerView.adapter = adapter

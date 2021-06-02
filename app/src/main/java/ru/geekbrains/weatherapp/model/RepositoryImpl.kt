@@ -2,26 +2,18 @@ package ru.geekbrains.weatherapp.model
 
 class RepositoryImpl : Repository {
 
-    override fun getWeatherFromLocalStorage(): Weather {
+    override fun getWeatherFromLocalStorage(): Weather =
         // имитируем сбой загрузки данных
-        val rnds = (0..10).random()
-        if (rnds >= 5) {
-            throw LoadingException("Loading from local storage failed")
+        when ((0..10).random() >= 5) {
+            true -> throw LoadingException("Loading from local storage failed")
+            else -> Weather()
         }
-        return Weather()
-    }
 
-    override fun getWeatherFromServer(): Weather {
-        return Weather()
-    }
+    override fun getWeatherFromServer() = Weather()
 
-    override fun getWeatherFromLocalStorageRus(): List<WeatherCategory> {
-        return getRussianWeatherCategory()
-    }
+    override fun getWeatherFromLocalStorageRus() = getRussianWeatherCategory()
 
-    override fun getWeatherFromLocalStorageWorld(): List<WeatherCategory> {
-        return getWorldWeatherCategory()
-    }
+    override fun getWeatherFromLocalStorageWorld() =  getWorldWeatherCategory()
 }
 
 class LoadingException(s: String) : Throwable()
