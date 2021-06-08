@@ -1,8 +1,7 @@
 package ru.geekbrains.weatherapp.model
 
 interface Repository {
-    fun getWeatherFromServer(): Weather
-    fun getWeatherFromLocalStorage(): Weather
-    fun getWeatherFromLocalStorageRus(): List<WeatherCategory>
-    fun getWeatherFromLocalStorageWorld(): List<WeatherCategory>
+    fun getWeather(city: City): Weather
+    fun getCityCategoriesRus(): List<CityCategory>
+    fun getCityCategoriesWorld(): List<CityCategory>
 }

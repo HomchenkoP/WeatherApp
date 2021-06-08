@@ -1,21 +1,18 @@
 package ru.geekbrains.weatherapp.viewmodel
 
-import ru.geekbrains.weatherapp.model.LoadingException
-import ru.geekbrains.weatherapp.model.Repository
-import ru.geekbrains.weatherapp.model.RepositoryImpl
-
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import ru.geekbrains.weatherapp.model.LoadingException
+import ru.geekbrains.weatherapp.model.MockRepositoryImpl
+import ru.geekbrains.weatherapp.model.Repository
 import java.lang.Thread.sleep
 
 class MainViewModel(
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
-    private val repositoryImpl: Repository = RepositoryImpl()
+    private val repositoryImpl: Repository = MockRepositoryImpl()
 ) : ViewModel() {
 
     fun getLiveData() = liveDataToObserve
-
-    fun getWeather() = getDataFromLocalSource(isRussian = true)
 
     private fun getDataFromLocalSource(isRussian: Boolean) {
         liveDataToObserve.value = AppState.Loading
@@ -28,8 +25,8 @@ class MainViewModel(
                 try {
                     liveDataToObserve.postValue(
                         AppState.Success(
-                            if (isRussian) repositoryImpl.getWeatherFromLocalStorageRus()
-                            else repositoryImpl.getWeatherFromLocalStorageWorld()
+                            if (isRussian) repositoryImpl.getCityCategoriesRus()
+                            else repositoryImpl.getCityCategoriesWorld()
                         )
                     )
                     break
@@ -41,7 +38,7 @@ class MainViewModel(
         }.start()
     }
 
-    fun getWeatherFromLocalSourceRus() = getDataFromLocalSource(isRussian = true)
+    fun getCityCategoriesRus() = getDataFromLocalSource(isRussian = true)
 
-    fun getWeatherFromLocalSourceWorld() = getDataFromLocalSource(isRussian = false)
+    fun getCityCategoriesWorld() = getDataFromLocalSource(isRussian = false)
 }

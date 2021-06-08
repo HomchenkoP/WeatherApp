@@ -1,7 +1,7 @@
 package ru.geekbrains.weatherapp.view
 
 import ru.geekbrains.weatherapp.R
-import ru.geekbrains.weatherapp.model.WeatherCategory
+import ru.geekbrains.weatherapp.model.CityCategory
 
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnItemViewClickListener?) :
     RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
 
-    private var weatherCategory: List<WeatherCategory> = listOf()
+    private var cityCategories: List<CityCategory> = listOf()
 
-    fun setWeatherCategory(data: List<WeatherCategory>) {
-        weatherCategory = data
+    fun setWeatherCategory(data: List<CityCategory>) {
+        cityCategories = data
         notifyDataSetChanged()
     }
 
@@ -32,20 +32,20 @@ class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnIt
         )
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        holder.bind(weatherCategory[position])
+        holder.bind(cityCategories[position])
     }
 
-    override fun getItemCount() = weatherCategory.size
+    override fun getItemCount() = cityCategories.size
 
     inner class MainViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(weatherCategory: WeatherCategory) {
+        fun bind(cityCategory: CityCategory) {
             itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text =
-                weatherCategory.title
+                cityCategory.title
 
             (itemView.findViewById(R.id.innerRecyclerView) as RecyclerView).apply {
                 layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-                adapter = InnerAdapter(weatherCategory.items, onItemViewClickListener)
+                adapter = InnerAdapter(cityCategory.items, onItemViewClickListener)
 
                 // типа заготовка примитивного пейджинга
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {

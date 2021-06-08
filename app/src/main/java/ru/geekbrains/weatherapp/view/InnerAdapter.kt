@@ -1,7 +1,7 @@
 package ru.geekbrains.weatherapp.view
 
 import ru.geekbrains.weatherapp.R
-import ru.geekbrains.weatherapp.model.Weather
+import ru.geekbrains.weatherapp.model.City
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 class InnerAdapter(
-    private var weatherData: List<Weather>,
+    private var cityData: List<City>,
     private var onItemViewClickListener: MainFragment.OnItemViewClickListener?
 ) :
     RecyclerView.Adapter<InnerAdapter.InnerViewHolder>() {
@@ -27,19 +27,19 @@ class InnerAdapter(
         )
 
     override fun onBindViewHolder(holder: InnerViewHolder, position: Int) {
-        holder.bind(weatherData[position])
+        holder.bind(cityData[position])
     }
 
-    override fun getItemCount() = weatherData.size
+    override fun getItemCount() = cityData.size
 
     inner class InnerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(weather: Weather) {
+        fun bind(city: City) {
             itemView.apply {
-                findViewById<TextView>(R.id.innerRecyclerItemText).text = weather.city.name
+                findViewById<TextView>(R.id.innerRecyclerItemText).text = city.name
                 setOnClickListener {
-                    onItemViewClickListener?.onItemViewClick(weather)
-                    Toast.makeText(itemView.context, weather.city.name, Toast.LENGTH_SHORT).show()
+                    onItemViewClickListener?.onItemViewClick(city)
+                    Toast.makeText(itemView.context, city.name, Toast.LENGTH_SHORT).show()
                 }
             }
         }

@@ -7,13 +7,12 @@ import ru.geekbrains.weatherapp.model.Weather
 import ru.geekbrains.weatherapp.model.WeatherDTO
 import ru.geekbrains.weatherapp.model.WeatherLoader
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import ru.geekbrains.weatherapp.model.City
 
 class DetailsFragment : Fragment() {
     private var weatherData: Weather? by argumentNullable()
@@ -51,7 +50,6 @@ class DetailsFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
