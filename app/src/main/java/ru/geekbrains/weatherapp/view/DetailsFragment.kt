@@ -3,16 +3,15 @@ package ru.geekbrains.weatherapp.view
 import ru.geekbrains.weatherapp.R
 import ru.geekbrains.weatherapp.argumentNullable
 import ru.geekbrains.weatherapp.databinding.FragmentDetailsBinding
+import ru.geekbrains.weatherapp.model.LocalBroadcastReceiver
 import ru.geekbrains.weatherapp.model.Weather
 import ru.geekbrains.weatherapp.model.WeatherDTO
-import ru.geekbrains.weatherapp.model.WeatherLoader
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import ru.geekbrains.weatherapp.model.City
 
 class DetailsFragment : Fragment() {
     private var weatherData: Weather? by argumentNullable()
@@ -30,17 +29,26 @@ class DetailsFragment : Fragment() {
         // геттер переменной binding
         get(): FragmentDetailsBinding = _binding!!
 
-    private val onLoadListener: WeatherLoader.WeatherLoaderListener =
-        object : WeatherLoader.WeatherLoaderListener {
+    private val onLoadListener: LocalBroadcastReceiver.LocalBroadcastReceiverListener =
+        object : LocalBroadcastReceiver.LocalBroadcastReceiverListener {
 
             override fun onLoaded(weatherDTO: WeatherDTO) {
                 displayWeather(weatherDTO)
             }
 
-            override fun onFailed(throwable: Throwable) {
+            override fun onFailed(msg: String) {
                 //Обработка ошибки
             }
         }
+
+    private val loadResultsReceiver: LocalBroadcastReceiver by lazy {
+        LocalBroadcastReceiver(onLoadListener, getActivity()?.getApplicationContext())
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycle.addObserver(loadResultsReceiver)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +64,7 @@ class DetailsFragment : Fragment() {
         binding.mainView.visibility = View.GONE
         binding.loadingLayout.visibility = View.VISIBLE
         weatherData?.let { weatherData ->
-            WeatherLoader(onLoadListener, weatherData.city.lat, weatherData.city.lon).loadWeather()
+            loadResultsReceiver.getWeather(weatherData.city.lat, weatherData.city.lon)
         }
     }
 
