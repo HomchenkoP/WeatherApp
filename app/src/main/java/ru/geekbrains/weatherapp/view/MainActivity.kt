@@ -3,14 +3,10 @@ package ru.geekbrains.weatherapp.view
 import ru.geekbrains.weatherapp.MainBroadcastReceiver
 import ru.geekbrains.weatherapp.R
 
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
-
-    private val receiver = MainBroadcastReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,11 +16,8 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.container, MainFragment.newInstance())
                 .commitNow()
         }
-        registerReceiver(receiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-    }
-
-    override fun onDestroy() {
-        unregisterReceiver(receiver)
-        super.onDestroy()
+        MainBroadcastReceiver(this).let {
+            lifecycle.addObserver(it)
+        }
     }
 }
