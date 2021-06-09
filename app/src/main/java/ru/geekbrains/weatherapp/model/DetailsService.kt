@@ -2,9 +2,9 @@ package ru.geekbrains.weatherapp.model
 
 import ru.geekbrains.weatherapp.BuildConfig
 
-import android.app.IntentService
 import android.content.Intent
 import android.util.Log
+import androidx.core.app.JobIntentService
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.Gson
 import java.net.MalformedURLException
@@ -26,21 +26,17 @@ const val DETAILS_CONDITION_EXTRA = "CONDITION"
 const val LATITUDE_EXTRA = "Latitude"
 const val LONGITUDE_EXTRA = "Longitude"
 
-class DetailsService(name: String = "DetailService") : IntentService(name) {
+class DetailsService(name: String = "DetailService") : JobIntentService() {
 
     private val broadcastIntent = Intent(DETAILS_INTENT_FILTER)
 
-    override fun onHandleIntent(intent: Intent?) {
-        if (intent == null) {
-            onEmptyIntent()
+    override fun onHandleWork(intent: Intent) {
+        val lat = intent.getDoubleExtra(LATITUDE_EXTRA, 0.0)
+        val lon = intent.getDoubleExtra(LONGITUDE_EXTRA, 0.0)
+        if (lat == 0.0 && lon == 0.0) {
+            onEmptyData()
         } else {
-            val lat = intent.getDoubleExtra(LATITUDE_EXTRA, 0.0)
-            val lon = intent.getDoubleExtra(LONGITUDE_EXTRA, 0.0)
-            if (lat == 0.0 && lon == 0.0) {
-                onEmptyData()
-            } else {
-                loadWeather(lat.toString(), lon.toString())
-            }
+            loadWeather(lat.toString(), lon.toString())
         }
     }
 

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.widget.Toast
+import androidx.core.app.JobIntentService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -56,7 +57,8 @@ class LocalBroadcastReceiver(
 
     fun getWeather(lat: Double, lon: Double) {
         context?.let {
-            it.startService(Intent(it, DetailsService::class.java).apply {
+//            it.startService(Intent(it, DetailsService::class.java).apply {
+            JobIntentService.enqueueWork(it, DetailsService::class.java, 1,Intent(it, DetailsService::class.java).apply {
                 putExtra(LATITUDE_EXTRA, lat)
                 putExtra(LONGITUDE_EXTRA, lon)
             })

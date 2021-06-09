@@ -3,6 +3,7 @@
     package="ru.geekbrains.weatherapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:allowBackup="true"
@@ -21,7 +22,7 @@
 
         <receiver android:name=".MainBroadcastReceiver" />
 
-        <service android:name=".model.DetailsService" />
+        <service android:name=".model.DetailsService" android:exported="false" />
     </application>
 
 </manifest>
