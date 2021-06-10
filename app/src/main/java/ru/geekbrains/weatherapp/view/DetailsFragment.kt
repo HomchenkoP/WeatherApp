@@ -1,19 +1,16 @@
 package ru.geekbrains.weatherapp.view
 
 import ru.geekbrains.weatherapp.R
+import ru.geekbrains.weatherapp.ViewBindingDelegate
 import ru.geekbrains.weatherapp.argumentNullable
 import ru.geekbrains.weatherapp.databinding.FragmentDetailsBinding
-import ru.geekbrains.weatherapp.model.LocalBroadcastReceiver
 import ru.geekbrains.weatherapp.model.Weather
 import ru.geekbrains.weatherapp.model.WeatherDTO
+import ru.geekbrains.weatherapp.repository.LocalBroadcastReceiver
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import ru.geekbrains.weatherapp.ViewBindingDelegate
-import ru.geekbrains.weatherapp.databinding.FragmentMainBinding
 
 class DetailsFragment : Fragment(R.layout.fragment_details) {
     private var weatherData: Weather? by argumentNullable()

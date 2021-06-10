@@ -1,4 +1,7 @@
-package ru.geekbrains.weatherapp.model
+package ru.geekbrains.weatherapp.repository
+
+import ru.geekbrains.weatherapp.model.FactDTO
+import ru.geekbrains.weatherapp.model.WeatherDTO
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -12,7 +15,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 class LocalBroadcastReceiver(
-    private val listener: LocalBroadcastReceiver.LocalBroadcastReceiverListener,
+    private val listener: LocalBroadcastReceiverListener,
     private val context: Context?
 ) : BroadcastReceiver(), LifecycleObserver {
 
@@ -58,10 +61,14 @@ class LocalBroadcastReceiver(
     fun getWeather(lat: Double, lon: Double) {
         context?.let {
 //            it.startService(Intent(it, DetailsService::class.java).apply {
-            JobIntentService.enqueueWork(it, DetailsService::class.java, 1,Intent(it, DetailsService::class.java).apply {
-                putExtra(LATITUDE_EXTRA, lat)
-                putExtra(LONGITUDE_EXTRA, lon)
-            })
+            JobIntentService.enqueueWork(
+                it,
+                DetailsService::class.java,
+                1,
+                Intent(it, DetailsService::class.java).apply {
+                    putExtra(LATITUDE_EXTRA, lat)
+                    putExtra(LONGITUDE_EXTRA, lon)
+                })
         }
     }
 

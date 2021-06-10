@@ -1,4 +1,4 @@
-package ru.geekbrains.weatherapp.model
+package ru.geekbrains.weatherapp.repository
 
 import ru.geekbrains.weatherapp.BuildConfig
 
@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.core.app.JobIntentService
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.Gson
+import ru.geekbrains.weatherapp.model.WeatherDTO
 import java.net.MalformedURLException
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection

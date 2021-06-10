@@ -1,6 +1,7 @@
-package ru.geekbrains.weatherapp.model
+package ru.geekbrains.weatherapp.repository
 
 import ru.geekbrains.weatherapp.BuildConfig
+import ru.geekbrains.weatherapp.model.WeatherDTO
 
 import android.os.Handler
 import android.os.Looper
