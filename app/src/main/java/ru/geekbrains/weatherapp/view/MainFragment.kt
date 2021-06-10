@@ -13,10 +13,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import ru.geekbrains.weatherapp.ViewBindingDelegate
 import ru.geekbrains.weatherapp.model.City
 import ru.geekbrains.weatherapp.model.Weather
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(R.layout.fragment_main) {
 
     companion object {
         fun newInstance() = MainFragment()
@@ -26,12 +27,10 @@ class MainFragment : Fragment() {
         fun onItemViewClick(weather: City)
     }
 
-    private var _binding: FragmentMainBinding? = null
-    private val binding
-        // геттер переменной binding
-        get(): FragmentMainBinding = _binding!!
+    private val binding:  FragmentMainBinding by ViewBindingDelegate(FragmentMainBinding::bind)
 
     private val viewModel: MainViewModel by lazy { ViewModelProvider(this).get(MainViewModel::class.java) } // привязка viewModel к жизненному циклу фрагмента MainFragment
+
     private val adapter = MainFragmentAdapter(object : OnItemViewClickListener
     {
         override fun onItemViewClick(city: City) {
@@ -44,14 +43,6 @@ class MainFragment : Fragment() {
         }
     })
     private var isDataSetRus: Boolean = true
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -93,11 +84,5 @@ class MainFragment : Fragment() {
                 Toast.makeText(context, getString(R.string.loading_failed_mess), Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        adapter.removeListener()
     }
 }
