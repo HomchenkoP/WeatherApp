@@ -32,7 +32,8 @@ class LocalBroadcastReceiver(
                     FactDTO(
                         intent.getIntExtra(DETAILS_TEMP_EXTRA, 0),
                         intent.getIntExtra(DETAILS_FEELS_LIKE_EXTRA, 0),
-                        intent.getStringExtra(DETAILS_CONDITION_EXTRA)
+                        intent.getStringExtra(DETAILS_CONDITION_EXTRA),
+                        intent.getStringExtra(DETAILS_ICON_EXTRA)
                     )
                 )
             )

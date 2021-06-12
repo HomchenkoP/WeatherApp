@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.core.app.JobIntentService
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.Gson
+import ru.geekbrains.weatherapp.model.FactDTO
 import ru.geekbrains.weatherapp.model.WeatherDTO
 import java.net.MalformedURLException
 import java.net.URL
@@ -24,6 +25,7 @@ const val DETAILS_RESPONSE_SUCCESS_EXTRA = "RESPONSE SUCCESS"
 const val DETAILS_TEMP_EXTRA = "TEMPERATURE"
 const val DETAILS_FEELS_LIKE_EXTRA = "FEELS LIKE"
 const val DETAILS_CONDITION_EXTRA = "CONDITION"
+const val DETAILS_ICON_EXTRA = "ICON"
 const val LATITUDE_EXTRA = "Latitude"
 const val LONGITUDE_EXTRA = "Longitude"
 
@@ -79,15 +81,16 @@ class DetailsService(name: String = "DetailService") : JobIntentService() {
         if (fact == null) {
             onEmptyResponse()
         } else {
-            onSuccessResponse(fact.temp, fact.feelsLike, fact.condition)
+            onSuccessResponse(fact)
         }
     }
 
-    private fun onSuccessResponse(temp: Int?, feelsLike: Int?, condition: String?) {
+    private fun onSuccessResponse(fact: FactDTO) {
         putLoadResult(DETAILS_RESPONSE_SUCCESS_EXTRA)
-        broadcastIntent.putExtra(DETAILS_TEMP_EXTRA, temp)
-        broadcastIntent.putExtra(DETAILS_FEELS_LIKE_EXTRA, feelsLike)
-        broadcastIntent.putExtra(DETAILS_CONDITION_EXTRA, condition)
+        broadcastIntent.putExtra(DETAILS_TEMP_EXTRA, fact.temp)
+        broadcastIntent.putExtra(DETAILS_FEELS_LIKE_EXTRA, fact.feelsLike)
+        broadcastIntent.putExtra(DETAILS_CONDITION_EXTRA, fact.condition)
+        broadcastIntent.putExtra(DETAILS_ICON_EXTRA, fact.icon)
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent)
     }
 
