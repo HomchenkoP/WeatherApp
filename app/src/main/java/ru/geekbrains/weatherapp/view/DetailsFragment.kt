@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
+import com.squareup.picasso.Picasso
 
 class DetailsFragment : Fragment(R.layout.fragment_details) {
     private var weatherData: Weather? by argumentNullable()
@@ -82,5 +83,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 binding.weatherIcon
             )
         }
+        Picasso
+            .get()
+            .load(getString(R.string.city_image_url))
+            .into(binding.headerIcon)
     }
 }

@@ -2,7 +2,8 @@
 <resources>
     <dimen name="margin_top">15dp</dimen>
     <dimen name="thin_margin_top">5dp</dimen>
-    <dimen name="city_name_margin_top">50dp</dimen>
+    <dimen name="city_image_height">200dp</dimen>
+    <dimen name="city_name_margin_top">10dp</dimen>
     <dimen name="text_size">15sp</dimen>
     <dimen name="temperature_value_text_size">40sp</dimen>
     <dimen name="feels_like_text_size">30sp</dimen>
