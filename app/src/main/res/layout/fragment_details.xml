@@ -33,17 +33,27 @@
             app:layout_constraintTop_toBottomOf="@+id/cityName"
             tools:text="координаты города" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/weatherIcon"
+            android:layout_width="@dimen/yandex_weather_icon_width"
+            android:layout_height="@dimen/yandex_weather_icon_height"
+            android:layout_marginTop="@dimen/margin_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cityCoordinates"
+            tools:srcCompat="@drawable/ic_baseline_wb_sunny_24" />
+
         <TextView
             android:id="@+id/weatherCondition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_top"
+            android:layout_marginTop="@dimen/thin_margin_top"
             android:textSize="@dimen/feels_like_text_size"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cityCoordinates"
-            tools:text="Облачно" />
+            app:layout_constraintTop_toBottomOf="@+id/weatherIcon"
+            tools:text="Солнечно" />
 
         <TextView
             android:id="@+id/temperatureLabel"

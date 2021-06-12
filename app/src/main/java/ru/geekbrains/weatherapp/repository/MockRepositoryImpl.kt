@@ -1,4 +1,9 @@
-package ru.geekbrains.weatherapp.model
+package ru.geekbrains.weatherapp.repository
+
+import ru.geekbrains.weatherapp.model.City
+import ru.geekbrains.weatherapp.model.Weather
+import ru.geekbrains.weatherapp.model.getRussianCityCategories
+import ru.geekbrains.weatherapp.model.getWorldCityCategories
 
 class MockRepositoryImpl : Repository {
 

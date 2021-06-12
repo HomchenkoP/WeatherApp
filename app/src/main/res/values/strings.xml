@@ -6,4 +6,5 @@
     <string name="loading_mess">Загрузка данных.</string>
     <string name="loading_success_mess">Даннные загружены.</string>
     <string name="loading_failed_mess">Сбой при загрузке данных.</string>
+    <string name="yandex_weather_icon_url">https://yastatic.net/weather/i/icons/blueye/color/svg/%s.svg</string>
 </resources>
