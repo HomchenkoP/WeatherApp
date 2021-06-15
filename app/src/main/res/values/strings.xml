@@ -8,4 +8,5 @@
     <string name="loading_failed_mess">Сбой при загрузке данных.</string>
     <string name="yandex_weather_icon_url">https://yastatic.net/weather/i/icons/blueye/color/svg/%s.svg</string>
     <string name="city_image_url">https://freepngimg.com/thumb/city/36284-8-city-transparent-image.png</string>
+    <string name="menu_title_history">История</string>
 </resources>
