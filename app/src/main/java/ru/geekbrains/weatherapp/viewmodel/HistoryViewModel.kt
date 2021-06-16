@@ -1,5 +1,6 @@
 package ru.geekbrains.weatherapp.viewmodel
 
+import ru.geekbrains.weatherapp.model.Weather
 import ru.geekbrains.weatherapp.repository.room.App.Companion.getHistoryDao
 import ru.geekbrains.weatherapp.repository.room.LocalRepository
 import ru.geekbrains.weatherapp.repository.room.LocalRepositoryImpl
@@ -14,6 +15,18 @@ class HistoryViewModel(
 
     fun getAllHistory() {
         historyLiveData.value = HistoryState.Loading
-        historyLiveData.value = HistoryState.Success(historyRepository.getAllHistory())
+        historyRepository.getAllHistory(roomResultListener)
     }
+
+    private val roomResultListener =
+        object : LocalRepository.RoomResultListener {
+
+            override fun onSuccess(history: List<Weather>) {
+                historyLiveData.value = HistoryState.Success(history)
+            }
+
+            override fun onFailed(throwable: Throwable) {
+                //Обработка ошибки
+            }
+        }
 }
