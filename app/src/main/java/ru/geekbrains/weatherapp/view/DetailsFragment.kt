@@ -1,14 +1,15 @@
 package ru.geekbrains.weatherapp.view
 
-import android.net.Uri
 import ru.geekbrains.weatherapp.R
 import ru.geekbrains.weatherapp.ViewBindingDelegate
 import ru.geekbrains.weatherapp.argumentNullable
 import ru.geekbrains.weatherapp.databinding.FragmentDetailsBinding
+import ru.geekbrains.weatherapp.model.City
 import ru.geekbrains.weatherapp.model.Weather
 import ru.geekbrains.weatherapp.viewmodel.DetailsState
 import ru.geekbrains.weatherapp.viewmodel.DetailsViewModel
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -46,16 +47,16 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         when (detailsState) {
             is DetailsState.Loading -> {
                 binding.mainView.visibility = View.GONE
-                binding.loadingLayout.visibility = View.VISIBLE // отображаем прогрессбар
+                binding.detailsFragmentLoadingLayout.loadingLayout.visibility = View.VISIBLE // отображаем прогрессбар
             }
             is DetailsState.Success -> {
                 binding.mainView.visibility = View.VISIBLE
-                binding.loadingLayout.visibility = View.GONE // скрываем прогрессбар
+                binding.detailsFragmentLoadingLayout.loadingLayout.visibility = View.GONE // скрываем прогрессбар
                 displayWeather(detailsState.weatherData)
             }
             is DetailsState.Error -> {
                 binding.mainView.visibility = View.VISIBLE
-                binding.loadingLayout.visibility = View.GONE // скрываем прогрессбар
+                binding.detailsFragmentLoadingLayout.loadingLayout.visibility = View.GONE // скрываем прогрессбар
                 Toast.makeText(context, getString(R.string.loading_failed_mess), Toast.LENGTH_SHORT)
                     .show()
             }
@@ -71,6 +72,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 city.lat.toString(),
                 city.lon.toString()
             )
+            saveWeather(city, weather)
         }
         // описание погоды от веб-сервиса
         binding.weatherCondition.text = weather.condition
@@ -79,7 +81,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         weather.icon?.let {
             GlideToVectorYou.justLoadImage(
                 activity,
-                Uri.parse(String.format(getString(R.string.yandex_weather_icon_url),it)),
+                Uri.parse(String.format(getString(R.string.yandex_weather_icon_url), it)),
                 binding.weatherIcon
             )
         }
@@ -87,5 +89,19 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             .get()
             .load(getString(R.string.city_image_url))
             .into(binding.headerIcon)
+    }
+
+    private fun saveWeather(
+        city: City,
+        weather: Weather
+    ) {
+        viewModel.saveWeatherToDB(
+            Weather(
+                city,
+                weather.temperature,
+                weather.feelsLike,
+                weather.condition
+            )
+        )
     }
 }

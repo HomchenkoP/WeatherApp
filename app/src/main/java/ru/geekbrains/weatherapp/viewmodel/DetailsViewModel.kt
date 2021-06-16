@@ -1,10 +1,14 @@
 package ru.geekbrains.weatherapp.viewmodel
 
+import ru.geekbrains.weatherapp.model.Weather
 import ru.geekbrains.weatherapp.model.WeatherDTO
 import ru.geekbrains.weatherapp.model.convertDtoToModel
 import ru.geekbrains.weatherapp.repository.DetailsRepository
 import ru.geekbrains.weatherapp.repository.DetailsRepositoryImpl
 import ru.geekbrains.weatherapp.repository.RemoteDataSource
+import ru.geekbrains.weatherapp.repository.room.App.Companion.getHistoryDao
+import ru.geekbrains.weatherapp.repository.room.LocalRepository
+import ru.geekbrains.weatherapp.repository.room.LocalRepositoryImpl
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,7 +22,8 @@ private const val CORRUPTED_DATA = "Неполные данные"
 
 class DetailsViewModel(
     val detailsLiveData: MutableLiveData<DetailsState> = MutableLiveData(),
-    private val detailsRepositoryImpl: DetailsRepository = DetailsRepositoryImpl(RemoteDataSource())
+    private val detailsRepositoryImpl: DetailsRepository = DetailsRepositoryImpl(RemoteDataSource()),
+    private val historyRepository: LocalRepository = LocalRepositoryImpl(getHistoryDao())
 ) : ViewModel() {
 
     fun getWeather(lat: Double, lon: Double) {
@@ -52,5 +57,9 @@ class DetailsViewModel(
                 DetailsState.Success(convertDtoToModel(serverResponse))
             }
         }
+    }
+
+    fun saveWeatherToDB(weather: Weather) {
+        historyRepository.saveEntity(weather)
     }
 }
