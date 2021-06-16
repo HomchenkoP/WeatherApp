@@ -5,7 +5,7 @@ import ru.geekbrains.weatherapp.ViewBindingDelegate
 import ru.geekbrains.weatherapp.databinding.FragmentMainBinding
 import ru.geekbrains.weatherapp.model.City
 import ru.geekbrains.weatherapp.model.Weather
-import ru.geekbrains.weatherapp.viewmodel.AppState
+import ru.geekbrains.weatherapp.viewmodel.MainState
 import ru.geekbrains.weatherapp.viewmodel.MainViewModel
 
 import android.content.Context
@@ -86,18 +86,18 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
     // renderData() вызывается Observer'ом при изменении данных LiveData
-    private fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Loading -> {
+    private fun renderData(mainState: MainState) {
+        when (mainState) {
+            is MainState.Loading -> {
                 binding.mainFragmentLoadingLayout.loadingLayout.visibility = View.VISIBLE // отображаем прогрессбар
                 Toast.makeText(context, getString(R.string.loading_mess), Toast.LENGTH_SHORT).show()
             }
-            is AppState.Success -> {
+            is MainState.Success -> {
                 binding.mainFragmentLoadingLayout.loadingLayout.visibility = View.GONE // скрываем прогрессбар
-                adapter.setWeatherCategory(appState.weatherData)
+                adapter.setCityCategories(mainState.data)
                 Toast.makeText(context, getString(R.string.loading_success_mess), Toast.LENGTH_LONG).show()
             }
-            is AppState.Error -> {
+            is MainState.Error -> {
                 binding.mainFragmentLoadingLayout.loadingLayout.visibility = View.GONE // скрываем прогрессбар
                 Toast.makeText(context, getString(R.string.loading_failed_mess), Toast.LENGTH_SHORT).show()
             }

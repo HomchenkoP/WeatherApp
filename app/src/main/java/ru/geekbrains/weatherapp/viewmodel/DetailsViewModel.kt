@@ -3,9 +3,9 @@ package ru.geekbrains.weatherapp.viewmodel
 import ru.geekbrains.weatherapp.model.Weather
 import ru.geekbrains.weatherapp.model.WeatherDTO
 import ru.geekbrains.weatherapp.model.convertDtoToModel
-import ru.geekbrains.weatherapp.repository.DetailsRepository
-import ru.geekbrains.weatherapp.repository.DetailsRepositoryImpl
-import ru.geekbrains.weatherapp.repository.RemoteDataSource
+import ru.geekbrains.weatherapp.repository.retrofit.DetailsRepository
+import ru.geekbrains.weatherapp.repository.retrofit.DetailsRepositoryImpl
+import ru.geekbrains.weatherapp.repository.retrofit.RemoteDataSource
 import ru.geekbrains.weatherapp.repository.room.App.Companion.getHistoryDao
 import ru.geekbrains.weatherapp.repository.room.LocalRepository
 import ru.geekbrains.weatherapp.repository.room.LocalRepositoryImpl

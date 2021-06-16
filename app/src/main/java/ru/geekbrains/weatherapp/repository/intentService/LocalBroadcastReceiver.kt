@@ -1,4 +1,4 @@
-package ru.geekbrains.weatherapp.repository
+package ru.geekbrains.weatherapp.repository.intentService
 
 import ru.geekbrains.weatherapp.model.FactDTO
 import ru.geekbrains.weatherapp.model.WeatherDTO
