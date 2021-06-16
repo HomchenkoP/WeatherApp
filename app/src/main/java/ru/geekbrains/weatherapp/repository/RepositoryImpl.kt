@@ -5,7 +5,7 @@ import ru.geekbrains.weatherapp.model.Weather
 import ru.geekbrains.weatherapp.model.getRussianCityCategories
 import ru.geekbrains.weatherapp.model.getWorldCityCategories
 
-class MockRepositoryImpl : Repository {
+class RepositoryImpl : Repository {
 
     override fun getWeather(city: City): Weather =
         // имитируем сбой загрузки данных

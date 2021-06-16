@@ -23,7 +23,7 @@
 
         <receiver android:name=".MainBroadcastReceiver" />
 
-        <service android:name=".repository.DetailsService" android:exported="false" />
+        <service android:name=".repository.intentService.DetailsService" android:exported="false" />
     </application>
 
 </manifest>

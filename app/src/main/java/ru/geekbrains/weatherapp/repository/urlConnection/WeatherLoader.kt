@@ -1,4 +1,4 @@
-package ru.geekbrains.weatherapp.repository
+package ru.geekbrains.weatherapp.repository.urlConnection
 
 import ru.geekbrains.weatherapp.BuildConfig
 import ru.geekbrains.weatherapp.model.WeatherDTO

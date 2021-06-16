@@ -16,7 +16,7 @@ class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnIt
 
     private var cityCategories: List<CityCategory> = listOf()
 
-    fun setWeatherCategory(data: List<CityCategory>) {
+    fun setCityCategories(data: List<CityCategory>) {
         cityCategories = data
         notifyDataSetChanged()
     }

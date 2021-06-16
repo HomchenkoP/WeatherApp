@@ -1,4 +1,7 @@
-package ru.geekbrains.weatherapp.repository
+package ru.geekbrains.weatherapp.repository.retrofit
+
+import ru.geekbrains.weatherapp.BuildConfig
+import ru.geekbrains.weatherapp.model.WeatherDTO
 
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
@@ -7,8 +10,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.geekbrains.weatherapp.BuildConfig
-import ru.geekbrains.weatherapp.model.WeatherDTO
 import java.io.IOException
 
 class RemoteDataSource {

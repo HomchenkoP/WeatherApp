@@ -1,7 +1,7 @@
 package ru.geekbrains.weatherapp.viewmodel
 
 import ru.geekbrains.weatherapp.repository.LoadingException
-import ru.geekbrains.weatherapp.repository.MockRepositoryImpl
+import ru.geekbrains.weatherapp.repository.RepositoryImpl
 import ru.geekbrains.weatherapp.repository.Repository
 
 import androidx.lifecycle.MutableLiveData
@@ -9,30 +9,30 @@ import androidx.lifecycle.ViewModel
 import java.lang.Thread.sleep
 
 class MainViewModel(
-    private val mainLiveData: MutableLiveData<AppState> = MutableLiveData(),
-    private val repositoryImpl: Repository = MockRepositoryImpl()
+    private val mainLiveData: MutableLiveData<MainState> = MutableLiveData(),
+    private val repositoryImpl: Repository = RepositoryImpl()
 ) : ViewModel() {
 
     fun getLiveData() = mainLiveData
 
     private fun getDataFromLocalSource(isRussian: Boolean) {
-        mainLiveData.value = AppState.Loading
+        mainLiveData.value = MainState.Loading
         // имитация запроса к БД
         Thread {
             // три попытки
             for (tryCnt in 1..3) {
-                mainLiveData.postValue(AppState.Loading)
+                mainLiveData.postValue(MainState.Loading)
                 sleep(3000)
                 try {
                     mainLiveData.postValue(
-                        AppState.Success(
+                        MainState.Success(
                             if (isRussian) repositoryImpl.getCityCategoriesRus()
                             else repositoryImpl.getCityCategoriesWorld()
                         )
                     )
                     break
                 } catch (e: LoadingException) {
-                    mainLiveData.postValue(AppState.Error(e))
+                    mainLiveData.postValue(MainState.Error(e))
                     sleep(1000)
                 }
             }
