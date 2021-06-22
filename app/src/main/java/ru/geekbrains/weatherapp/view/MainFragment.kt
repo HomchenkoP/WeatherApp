@@ -161,7 +161,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         activity?.let {
             AlertDialog.Builder(it)
                 .setTitle(getString(R.string.dialog_rationale_title))
-                .setMessage(getString(R.string.dialog_rationale_meaasge))
+                .setMessage(getString(R.string.dialog_rationale_message))
                 .setPositiveButton(getString(R.string.dialog_rationale_give_access)) { _, _ ->
                     requestPermission()
                 }
